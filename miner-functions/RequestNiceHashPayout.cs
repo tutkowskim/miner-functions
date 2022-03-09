@@ -27,9 +27,9 @@ namespace miner_functions
                     var withdrawlAddresses = await api.GetWithdrawalAddresses();
                     if (withdrawlAddresses.list.Count >= 0)
                     {
-                        var walletId = withdrawlAddresses.list[0].id;
-                        await api.RequestWithdrawl(walletId, amountAvailable);
-                        log.LogInformation("Requested a payout of " + amountAvailable + " to " + walletId);
+                        var wallet = withdrawlAddresses.list[0];
+                        await api.RequestWithdrawl(wallet.id, amountAvailable);
+                        log.LogInformation("Requested a payout of " + amountAvailable + " to " + wallet.address);
                     }
                     else
                     {

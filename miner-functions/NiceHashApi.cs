@@ -223,6 +223,8 @@ namespace miner_functions
     public class Wallet
     {
         public string id { get; set; }
+        public string name { get; set; }
+        public string address { get; set; }
     }
 
     public class WalletList
