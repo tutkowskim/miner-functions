@@ -20,7 +20,6 @@ namespace miner_functions
             NiceHashApi api = new NiceHashApi(niceHashUrl, orgId,apiKey, apiSecret);
 
             Task task = new Task(async () => {
-                var time = await api.GetTime();
                 var accountInfo = await api.GetAccountInfo();
                 var amountAvailable = accountInfo.total.available;
                 if (amountAvailable > threshold)
@@ -29,7 +28,7 @@ namespace miner_functions
                     if (withdrawlAddresses.list.Count >= 0)
                     {
                         var walletId = withdrawlAddresses.list[0].id;
-                        var withdrawlRequest = await api.RequestWithdrawl(walletId, amountAvailable);
+                        await api.RequestWithdrawl(walletId, amountAvailable);
                         log.LogInformation("Requested a payout of " + amountAvailable + " to " + walletId);
                     }
                     else
