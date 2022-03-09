@@ -12,6 +12,7 @@ namespace miner_functions
         [FunctionName("RequestNiceHashPayout")]
         public static void Run([TimerTrigger("0 0 8 * * *")] TimerInfo myTimer, ILogger log)
         {
+            var threshold = 0.0005;
             var niceHashUrl = "https://api2.nicehash.com";
             var orgId = Environment.GetEnvironmentVariable("NICE_HASH_ORG_ID");
             var apiKey = Environment.GetEnvironmentVariable("NICE_HASH_API_KEY");
@@ -21,8 +22,25 @@ namespace miner_functions
             Task task = new Task(async () => {
                 var time = await api.GetTime();
                 var accountInfo = await api.GetAccountInfo();
-                log.LogInformation("Server time: " + time.serverTime);
-                log.LogInformation("Account Total: " + accountInfo.total.available);
+                var amountAvailable = accountInfo.total.available;
+                if (amountAvailable > threshold)
+                {
+                    var withdrawlAddresses = await api.GetWithdrawalAddresses();
+                    if (withdrawlAddresses.list.Count >= 0)
+                    {
+                        var walletId = withdrawlAddresses.list[0].id;
+                        var withdrawlRequest = await api.RequestWithdrawl(walletId, amountAvailable);
+                        log.LogInformation("Requested a payout of " + amountAvailable + " to " + walletId);
+                    }
+                    else
+                    {
+                        log.LogInformation("No wallets have been white listed.");
+                    }
+                }
+                else
+                {
+                    log.LogInformation("Account balance " + accountInfo.total.available + " doesn't meet the " + threshold + " thresold for payout.");
+                }
             });
 
             task.Start();

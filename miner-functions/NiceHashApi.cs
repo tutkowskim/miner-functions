@@ -187,6 +187,17 @@ namespace miner_functions
         {
             return this.get<AccountInfo>("/main/api/v2/accounting/accounts2", true);
         }
+
+        public Task<WalletList> GetWithdrawalAddresses()
+        {
+            return this.get<WalletList>("main/api/v2/accounting/withdrawalAddresses", true);
+        }
+
+        public Task<WithdrawlResponse> RequestWithdrawl(string walletId, double amount)
+        {
+            var body = "{\"currency\": \"BTC\", \"withdrawalAddressId\": \"" + walletId + "\", \"amount\": \"" + amount + "\"}";
+            return this.post<WithdrawlResponse>("/main/api/v2/accounting/withdrawal", body, false);
+        }
     }
 
     public class ServerTime
@@ -206,5 +217,21 @@ namespace miner_functions
     public class AccountInfo
     {
         public AccountInfoTotal total { get; set; }
+    }
+
+
+    public class Wallet
+    {
+        public string id { get; set; }
+    }
+
+    public class WalletList
+    {
+        public List<Wallet> list { get; set; }
+    }
+
+    public class WithdrawlResponse
+    {
+        public string id { get; set; } 
     }
 }
