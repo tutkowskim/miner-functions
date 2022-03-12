@@ -13,7 +13,7 @@ namespace miner_functions
 
         public void Log(string message)
         {
-            this.logger.LogDebug(message);
+            this.logger.LogInformation(message);
         }
     }
 }
