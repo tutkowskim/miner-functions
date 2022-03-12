@@ -101,7 +101,7 @@ namespace miner_functions
         private static string CalcHMACSHA256Hash(string plaintext, string salt)
         {
             string result = "";
-            var enc = Encoding.Default;
+            var enc = Encoding.UTF8;
             byte[]
             baText2BeHashed = enc.GetBytes(plaintext),
             baSalt = enc.GetBytes(salt);
@@ -148,7 +148,7 @@ namespace miner_functions
 
             if (payload != null)
             {
-                request.AddJsonBody(payload);
+                request.AddStringBody(payload, RestSharp.Serializers.ContentType.Json);
             }
 
             request.AddOrUpdateHeader("X-Time", serverTime);
