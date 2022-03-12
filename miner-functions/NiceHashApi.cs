@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HttpTracer;
+using HttpTracer.Logger;
 using RestSharp;
+using Newtonsoft.Json;
 
 namespace miner_functions
 {
@@ -16,6 +19,7 @@ namespace miner_functions
         private string orgId;
         private string apiKey;
         private string apiSecret;
+        private RestClient client;
 
         public NiceHashApi(string urlRoot, string orgId, string apiKey, string apiSecret)
         {
@@ -23,6 +27,12 @@ namespace miner_functions
             this.orgId = orgId;
             this.apiKey = apiKey;
             this.apiSecret = apiSecret;
+
+            var options = new RestClientOptions(this.urlRoot)
+            {
+                ConfigureMessageHandler = handler => new HttpTracerHandler(handler, new ConsoleLogger(), HttpMessageParts.All)
+            };
+            this.client = new RestClient(options);
         }
 
         private static string HashBySegments(string key, string apiKey, string time, string nonce, string orgId, string method, string encodedPath, string query, string bodyStr)
@@ -109,7 +119,6 @@ namespace miner_functions
 
         private async Task<T> get<T>(string url, bool auth)
         {
-            var client = new RestClient(this.urlRoot);
             var request = new RestRequest(url);
 
             if (auth)
@@ -124,12 +133,11 @@ namespace miner_functions
                 request.AddOrUpdateHeader("X-Organization-Id", this.orgId);
             }
 
-            return await client.GetAsync<T>(request);
+            return await this.client.GetAsync<T>(request);
         }
 
         private async Task<T> post<T>(string url, string payload, bool requestId)
         {
-            var client = new RestClient(this.urlRoot);
             var request = new RestRequest(url);
             request.AddOrUpdateHeader("Accept", "application/json");
             request.AddOrUpdateHeader("Content-type", "application/json");
@@ -153,12 +161,11 @@ namespace miner_functions
                 request.AddOrUpdateHeader("X-Request-Id", Guid.NewGuid().ToString());
             }
 
-            return await client.PostAsync<T>(request);
+            return await this.client.PostAsync<T>(request);
         }
 
         private async Task<T> delete<T>(string url, bool requestId)
         {
-            var client = new RestClient(this.urlRoot);
             var request = new RestRequest(url);
 
             string serverTime = "" + (await GetTime()).serverTime;
@@ -175,7 +182,7 @@ namespace miner_functions
                 request.AddOrUpdateHeader("X-Request-Id", Guid.NewGuid().ToString());
             }
 
-            return await client.DeleteAsync<T>(request);
+            return await this.client.DeleteAsync<T>(request);
         }
 
         public Task<ServerTime> GetTime()
@@ -190,13 +197,18 @@ namespace miner_functions
 
         public Task<WalletList> GetWithdrawalAddresses()
         {
-            return this.get<WalletList>("main/api/v2/accounting/withdrawalAddresses", true);
+            return this.get<WalletList>("/main/api/v2/accounting/withdrawalAddresses", true);
         }
 
         public Task<WithdrawlResponse> RequestWithdrawl(string walletId, double amount)
         {
-            var body = "{\"currency\": \"BTC\", \"withdrawalAddressId\": \"" + walletId + "\", \"amount\": \"" + amount + "\"}";
-            return this.post<WithdrawlResponse>("/main/api/v2/accounting/withdrawal", body, false);
+            var body = new WithdrawlRequestBody() {
+                currency = "BTC",
+                withdrawalAddressId = walletId,
+                amount = "" + amount,
+            };
+            var json = JsonConvert.SerializeObject(body);
+            return this.post<WithdrawlResponse>("/main/api/v2/accounting/withdrawal", json, true);
         }
     }
 
@@ -230,6 +242,13 @@ namespace miner_functions
     public class WalletList
     {
         public List<Wallet> list { get; set; }
+    }
+
+    public class WithdrawlRequestBody
+    {
+        public string currency;
+        public string withdrawalAddressId;
+        public string amount;
     }
 
     public class WithdrawlResponse
