@@ -21,7 +21,7 @@ namespace miner_functions
         private string apiSecret;
         private RestClient client;
 
-        public NiceHashApi(string urlRoot, string orgId, string apiKey, string apiSecret)
+        public NiceHashApi(string urlRoot, string orgId, string apiKey, string apiSecret, ILogger logger)
         {
             this.urlRoot = urlRoot;
             this.orgId = orgId;
@@ -30,7 +30,7 @@ namespace miner_functions
 
             var options = new RestClientOptions(this.urlRoot)
             {
-                ConfigureMessageHandler = handler => new HttpTracerHandler(handler, new ConsoleLogger(), HttpMessageParts.All)
+                ConfigureMessageHandler = handler => new HttpTracerHandler(handler, logger, HttpMessageParts.All)
             };
             this.client = new RestClient(options);
         }

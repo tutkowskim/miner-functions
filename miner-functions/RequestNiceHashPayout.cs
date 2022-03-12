@@ -17,7 +17,7 @@ namespace miner_functions
             var orgId = Environment.GetEnvironmentVariable("NICE_HASH_ORG_ID");
             var apiKey = Environment.GetEnvironmentVariable("NICE_HASH_API_KEY");
             var apiSecret = Environment.GetEnvironmentVariable("NICE_HASH_API_SECRET");
-            NiceHashApi api = new NiceHashApi(niceHashUrl, orgId,apiKey, apiSecret);
+            NiceHashApi api = new NiceHashApi(niceHashUrl, orgId,apiKey, apiSecret, new HttpTracerLoggerToMicrosoftLoggerWrapper(log));
 
             Task task = new Task(async () => {
                 var accountInfo = await api.GetAccountInfo();
