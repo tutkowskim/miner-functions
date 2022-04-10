@@ -10,7 +10,7 @@ namespace miner_functions
     public static class RequestNiceHashPayout
     {
         [FunctionName("RequestNiceHashPayout")]
-        public static void Run([TimerTrigger("0 0 8 * * *")] TimerInfo myTimer, ILogger log)
+        public static void Run([TimerTrigger("0 0 8 * * 1")] TimerInfo myTimer, ILogger log)
         {
             var threshold = 0.0005;
             var niceHashUrl = "https://api2.nicehash.com";
