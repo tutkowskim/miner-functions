@@ -14,20 +14,6 @@ using Azure;
 
 namespace functions
 {
-    public class MiningPowerUsageItem
-    {
-        [JsonProperty("id")]
-        public string ID { get; set; }
-        [JsonProperty("date")]
-        public string Date { get; set; }
-        [JsonProperty("rig")]
-        public string Rig { get; set; }
-        [JsonProperty("power_usage_kw")]
-        public string PowerUsageKw { get; set; }
-        [JsonProperty("usd_per_kw")]
-        public double UsdPerKw { get; init; } = default!;
-    }
-
     public static class PostPowerUsage
     {
         [FunctionName("PostPowerUsage")]
@@ -36,7 +22,6 @@ namespace functions
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-
 
             var connectionString = Environment.GetEnvironmentVariable("COSMOS_DB_CONNECTION_STRING");
             CosmosClient cosmosClient = new CosmosClient(connectionString);
@@ -61,5 +46,19 @@ namespace functions
             // TODO: Scrap from we-energies
             return 0.16580;
         }
+    }
+
+    public class MiningPowerUsageItem
+    {
+        [JsonProperty("id")]
+        public string ID { get; set; }
+        [JsonProperty("date")]
+        public string Date { get; set; }
+        [JsonProperty("rig")]
+        public string Rig { get; set; }
+        [JsonProperty("power_usage_kw")]
+        public string PowerUsageKw { get; set; }
+        [JsonProperty("usd_per_kw")]
+        public double UsdPerKw { get; init; } = default!;
     }
 }
