@@ -8,7 +8,7 @@ using HttpTracer.Logger;
 using RestSharp;
 using Newtonsoft.Json;
 
-namespace miner_functions
+namespace functions
 {
     /// <summary>
     /// Modified nice hash client from https://raw.githubusercontent.com/nicehash/rest-clients-demo/master/c%23/connect/connect/Api.cs

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace miner_functions
+namespace functions
 {
     public class HttpTracerLoggerToMicrosoftLoggerWrapper : HttpTracer.Logger.ILogger
     {

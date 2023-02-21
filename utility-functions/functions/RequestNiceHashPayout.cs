@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 // In order to debug on mac use https://github.com/azure/azurite
 
-namespace miner_functions
+namespace functions
 {
     public static class RequestNiceHashPayout
     {

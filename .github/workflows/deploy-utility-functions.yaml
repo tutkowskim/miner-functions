@@ -7,7 +7,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: crypto-utility-functions
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './utility-functions/miner-functions.csproj'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './utility-functions'
   DOTNET_VERSION: '3.1.x'
 
 jobs:
