@@ -57,7 +57,7 @@ namespace functions
         [JsonProperty("rig")]
         public string Rig { get; set; }
         [JsonProperty("power_usage_kw")]
-        public string PowerUsageKw { get; set; }
+        public double PowerUsageKw { get; set; }
         [JsonProperty("usd_per_kw")]
         public double UsdPerKw { get; init; } = default!;
     }
