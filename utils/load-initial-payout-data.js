@@ -14,10 +14,9 @@ const main = async () => {
   const key = process.env.COSMOS_DB_KEY;
   const client = new CosmosClient({ endpoint, key });
   const { database } = await client.databases.createIfNotExists({ id: "Crypto" });
-  const { container } = await database.containers.createIfNotExists({ id: "MiningPayouts" });
-  payoutsData.forEach(payoutData => {
-    container.items.create(payoutData);
-  });
+  const { container } = await database.containers.createIfNotExists({ id: "MiningPayouts", partitionKey: '/timestamp' });
+  const createPromises = payoutsData.map(payoutData => container.items.create(payoutData));
+  await Promise.all(createPromises);
 };
 
 main();
