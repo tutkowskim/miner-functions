@@ -20,7 +20,7 @@ async def main():
           json = {
             'date': yesterday.strftime('%Y-%m-%d'),
             'rig': DESKTOP_PLUG_ALIAS,
-            'power_usage_kw': yesterdays_power
+            'power_usage_kw': float(yesterdays_power)
           }
           result = requests.post(POWER_USAGE_URL, json = json)
           print(result.text)
