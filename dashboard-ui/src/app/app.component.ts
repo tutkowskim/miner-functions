@@ -9,9 +9,11 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent {
   public readonly isAuthenticated$;
+  public readonly isPrivilegedUser$;
   
   constructor(private authService: AuthService, private router: Router) {
     this.isAuthenticated$ = this.authService.isAuthenticated$;
+    this.isPrivilegedUser$ = this.authService.isPrivilegedUser$;
   }
 
   public navigate(url: string) {

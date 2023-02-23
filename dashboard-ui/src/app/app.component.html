@@ -4,8 +4,8 @@
       <img class="h-9" src="/assets/logo-white.svg" alt="logo">
       Crypto
     </button>
-    <button class="hover:text-gray-200" (click)="navigate('/mining')">Mining</button>
-    <button class="hover:text-gray-200" (click)="navigate('/transfers')">Transfers</button>
+    <button *ngIf="isPrivilegedUser$ | async" class="hover:text-gray-200" (click)="navigate('/mining')">Mining</button>
+    <button *ngIf="isPrivilegedUser$ | async" class="hover:text-gray-200" (click)="navigate('/transfers')">Transfers</button>
     <div class="flex-auto"></div>
     <button *ngIf="isAuthenticated$ | async" class="hover:text-gray-200" (click)="logout()">Logout</button>
   </nav>
