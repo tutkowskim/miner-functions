@@ -8,10 +8,10 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public readonly isPrivilegedUser$;
+  public readonly isAuthenticated$;
   
   constructor(private authService: AuthService, private router: Router) {
-    this.isPrivilegedUser$ = this.authService.isPrivilegedUser$;
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
   }
 
   public navigate(url: string) {

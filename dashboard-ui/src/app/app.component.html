@@ -7,7 +7,7 @@
     <button class="hover:text-gray-200" (click)="navigate('/mining')">Mining</button>
     <button class="hover:text-gray-200" (click)="navigate('/transfers')">Transfers</button>
     <div class="flex-auto"></div>
-    <button *ngIf="isPrivilegedUser$ | async" class="hover:text-gray-200" (click)="logout()">Logout</button>
+    <button *ngIf="isAuthenticated$ | async" class="hover:text-gray-200" (click)="logout()">Logout</button>
   </nav>
 </header>
 <div class="max-w-5xl mx-auto">
