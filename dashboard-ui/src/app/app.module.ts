@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { MiningComponent } from './mining/mining.component';
 import { TransfersComponent } from './transfers/transfers.component';
+import { CardComponent } from './card/card.component';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { TransfersComponent } from './transfers/transfers.component';
     LoginComponent,
     UnauthorizedComponent,
     MiningComponent,
-    TransfersComponent
+    TransfersComponent,
+    CardComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,16 @@
+<table class="table-auto w-full">
+  <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+    <tr>
+      <th *ngFor="let colDef of columnDefinitions" class="p-2 whitespace-nowrap">
+        <div class="font-semibold text-left">{{colDef.displayName}}</div>
+      </th>
+    </tr>
+  </thead>
+  <tbody class="text-sm divide-y divide-gray-100">
+    <tr *ngFor="let row of rows">
+      <td *ngFor="let colDef of columnDefinitions" class="p-2 whitespace-nowrap">
+        <div class="text-left">{{ colDef.fetchColumnValue(row) }}</div>
+      </td>
+    </tr>
+  </tbody>
+</table>

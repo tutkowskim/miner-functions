@@ -1,1 +1,6 @@
-<p>mining works!</p>
+<app-card title="Mining Payouts">
+  <app-table [columnDefinitions]="miningPayoutsColumDefinitions" [rows]="miningPayouts$ | async"></app-table>
+</app-card>
+<app-card title="Power Usage">
+  <app-table [columnDefinitions]="dailyMiningPowerUsageColumDefinitions" [rows]="dailyMiningPowerUsage$ | async"></app-table>
+</app-card>
