@@ -10,7 +10,9 @@
       <div class="text-3xl text-center" [ngClass]="profit > 0 ? 'text-green-700' : 'text-red-700'">{{profit | currency}}</div>
     </app-card>
   </div>
-  <app-card title="Yearly Profit">Place graph here</app-card>
+  <app-card title="Overall Profit">
+      <canvas class="w-full h-48" id="mining-profit-chart" >{{ chart }}</canvas>
+  </app-card>
   <app-card title="Mining Payouts">
     <app-table [columnDefinitions]="miningPayoutsColumDefinitions" [rows]="miningPayouts$ | async"></app-table>
   </app-card>
