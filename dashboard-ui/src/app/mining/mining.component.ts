@@ -51,7 +51,7 @@ export class MiningComponent implements OnInit {
   }
 
   public createChart(stats: MonthlyMiningStatistic[]){
-    const orderedStats = stats.sort((a,b) => new Date(a.month).getTime() - new Date(b.month).getTime());
+    const orderedStats = stats.reverse(); // The server returns newest first
     this.chart = new Chart("mining-profit-chart", {
       type: 'line',
       data: {
